@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Summary: Run `git` in directories of all **env and all installed plugins.
+#
+# Usage: anyenv git <any-git-sub-commands>...
+#
+# Example: anyenv git pull
+#          anyenv git gc
+
+set -eo pipefail
+[ -n "$ANYENV_DEBUG" ] && set -x
+set -u
+
+anyenv_git () {
+  if [ -d .git ]; then
+    echo "Updating '$1'..."
+    shift
+    git "$@"
+  else
+    echo "Skipping '$1'"
+  fi
+  echo
+}
+
+anyenv_git_plugins () {
+  shopt -s nullglob
+  for plugin in plugins/*; do
+    pushd "$plugin" >/dev/null
+    anyenv_git "$(basename $plugin)" "$@"
+    popd >/dev/null
+  done
+  shopt -u nullglob
+}
+
+cd "${ANYENV_ROOT:-$(anyenv root)}"
+anyenv_git anyenv "$@"
+anyenv_git_plugins "$@"
+
+for env in $(anyenv envs); do
+  ENV_ROOT_VALUE=$(echo ${env}_ROOT | tr "[a-z]" "[A-Z]")
+  eval cd "\${${ENV_ROOT_VALUE}:-\$($env root)}"
+  anyenv_git "$env" "$@"
+  anyenv_git_plugins "$@"
+done
