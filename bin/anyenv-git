@@ -12,11 +12,11 @@ set -u
 
 anyenv_git () {
   if [ -d .git ]; then
-    echo "Updating '$1'..."
+    echo "Run git in '$1'..."
     shift
     git "$@"
   else
-    echo "Skipping '$1'"
+    echo "Skip '$1'"
   fi
   echo
 }
