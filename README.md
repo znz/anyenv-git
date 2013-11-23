@@ -25,6 +25,12 @@ Show all remote repositories:
 
     anyenv git remote -v
 
+Show statuses:
+
+    anyenv git status
+
+And you can use any git sub commands.
+
 ## License
 
 (The MIT License)
