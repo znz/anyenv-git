@@ -6,9 +6,8 @@
 # Example: anyenv git pull
 #          anyenv git gc
 
-set -eo pipefail
-[ -n "$ANYENV_DEBUG" ] && set -x
-set -u
+set -euo pipefail
+[ -n "${ANYENV_DEBUG-}" ] && set -x
 
 anyenv_git () {
   if [ -d .git ]; then
