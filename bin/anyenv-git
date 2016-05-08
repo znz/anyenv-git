@@ -24,7 +24,7 @@ anyenv_git_plugins () {
   shopt -s nullglob
   for plugin in plugins/*; do
     pushd "$plugin" >/dev/null
-    anyenv_git "$(basename $plugin)" "$@"
+    anyenv_git "$(basename "$plugin")" "$@"
     popd >/dev/null
   done
   shopt -u nullglob
@@ -35,7 +35,7 @@ anyenv_git anyenv "$@"
 anyenv_git_plugins "$@"
 
 for env in $(anyenv envs); do
-  ENV_ROOT_VALUE=$(echo ${env}_ROOT | tr "[a-z]" "[A-Z]")
+  ENV_ROOT_VALUE=$(echo "${env}_ROOT" | tr "[a-z]" "[A-Z]")
   eval cd "\${${ENV_ROOT_VALUE}:-\$($env root)}"
   anyenv_git "$env" "$@"
   anyenv_git_plugins "$@"
