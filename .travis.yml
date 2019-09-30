@@ -1,11 +1,9 @@
 language: bash
 
-sudo: false
+dist: bionic
 
 addons:
   apt:
-    sources:
-    - debian-sid
     packages:
     - shellcheck
 
